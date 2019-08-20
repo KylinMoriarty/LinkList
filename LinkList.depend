@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1566309953 source:c:\users\administrator\desktop\linklist\linklist.cpp
+	"LinkList.hpp"
+	<iostream>
+	<cstdlib>
+
+1566309953 c:\users\administrator\desktop\linklist\linklist.hpp
+	<cstdlib>
+	<vector>
+
+1566309953 source:c:\users\administrator\desktop\linklist\main.cpp
+	<iostream>
+	"LinkList.hpp"
+
