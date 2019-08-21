@@ -9,9 +9,16 @@ int main()
     L1.InsertAtIndex(1,6);
     L1.TraverLinkLIst();
     //L1.DeleteAtIndex(2);
-    L1.ReverseList1();
     //L1.DeleteAll();
-   // cout<<L1.GetLength()<<endl;
+   // L1.IsExistData(7);
+   // L1.IsExistData(0);
+   // L1.IsExistData(1);
+   // L1.DeleteAtData(7);
+    cout<<L1.FindReverseIndex(0)->data<<endl;
+     cout<<L1.FindReverseIndex(1)->data<<endl;
+      cout<<L1.FindReverseIndex(6)->data<<endl;
+       cout<<L1.FindReverseIndex(7)->data<<endl;
+    L1.ReverseList();
     L1.TraverLinkLIst();
 
    // L2.CreateLinkListAtHead(5);

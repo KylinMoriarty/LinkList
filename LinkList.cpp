@@ -6,9 +6,10 @@ using namespace std;
 
 LinkList::LinkList(){
     head = new ListNode;
-    head->data=0;
     head->next=nullptr;
-}//构建一个单链表，初始化头结点
+    except = new ListNode;
+    except->next=nullptr;
+}//构建一个单链表，初始化头结点和处理异常的节点
 
 LinkList::~LinkList(){
     delete head;
@@ -80,11 +81,31 @@ bool LinkList::IsEmpty(){
     return false;
 }//判断单链表是否为空
 
-ListNode* LinkList::Find(int n){
-    ListNode *p=head;
+bool LinkList::IsExistData(int n){
+    ListNode *p=head->next;
     if(p==nullptr){
         cout<<"NULL"<<endl;
-        return nullptr;
+        return false;
+    }
+    else{
+        while(p->next!=nullptr){
+            if(p->data==n){
+                cout<<"Exist"<<endl;
+                return true;
+            }
+            p=p->next;
+        }
+        cout<<"Not Exist"<<endl;
+        return false;
+    }
+}//查找指定数据节点
+
+
+ListNode* LinkList::FindData(int n){
+    ListNode *p=head->next;
+    if(p==nullptr){
+        cout<<"Not Exist"<<endl;
+        return except;
     }
     else{
         while(p->next!=nullptr){
@@ -92,9 +113,52 @@ ListNode* LinkList::Find(int n){
                 return p;
             p=p->next;
         }
-        return nullptr;
+        cout<<"Not Exist"<<endl;
+        return except;
+    }
+}//查找返回指定数据节点
+
+ListNode* LinkList::FindIndex(int pos){
+    ListNode *p=head;
+    int i=1;
+    if(p==nullptr||pos<1||pos>GetLength()){
+        cout<<"Error"<<endl;
+        return except;
+    }
+    else{
+        while(p->next!=nullptr){
+            if(i==pos)
+                return p->next;
+            i++;
+            p=p->next;
+        }
+        return except;
     }
 }//查找节点
+
+ListNode* LinkList::FindReverseIndex(int pos){
+    ListNode *pA=head;
+    ListNode *pB=head;
+    if(pA==nullptr||pos<1||pos>GetLength()){
+        cout<<"Error"<<endl;
+        return except;
+    }
+    else{
+        for(int i=0;i<pos-1;i++){
+            if(pA->next!=nullptr)
+                pA=pA->next;
+            else{
+                cout<<"Error"<<endl;
+                return except;
+            }
+        }
+        while(pA->next!=nullptr){
+                pA=pA->next;
+                pB=pB->next;
+            }
+        return pB;
+    }
+}//查找倒数第几个节点
 
 void LinkList::InsertAtEnd(int n){
     ListNode *pnew = new ListNode(n);
@@ -178,17 +242,21 @@ void LinkList::DeleteAtHead(){
     }
 }//删除头部元素
 
-void LinkList::DeleteAtPoint(int n){
-    ListNode *ptemp = Find(n);
+void LinkList::DeleteAtData(int n){
+    ListNode *ptemp = FindData(n);
     if(ptemp==head->next)
         DeleteAtHead();
     else{
         ListNode *p=head;
-        while(p->next!=ptemp)
+        while(p->next!=ptemp&&p->next!=nullptr)
             p=p->next;
-        p->next=ptemp->next;
-        delete ptemp;
-        ptemp=nullptr;//防止其成为野指针
+        if(p->next==ptemp){
+            p->next=ptemp->next;
+            delete ptemp;
+            ptemp=nullptr;//防止其成为野指针
+        }
+        else
+            return ;
     }
 
 }//删除指定数据元素
@@ -211,35 +279,21 @@ void LinkList::DeleteAtIndex(int pos){
     }
 }//删除指定位置元素
 
-void LinkList::ReverseList1(){
-    ListNode *pre=nullptr;
-	ListNode *p=nullptr;
-	ListNode *pHead=head;
-    while(pHead!=nullptr)
-    {
-        p=pHead->next;	//保存剩余链表
-		pHead->next=pre;//断开剩余链表头结点pHead，指向pre
-		pre=pHead;	//pre更新
-		pHead=p;	//head更新
-    }
-    ListNode *pnew=new ListNode;
-    pnew->next=pre;
-    head=pnew;
-    DeleteAtEnd();
-}
-
-ListNode* LinkList::ReverseList2(ListNode* pHead){
-    if(pHead==NULL)
-		return NULL;
+void LinkList::ReverseList(){
+    ListNode *pHead=head;
+    if(pHead==nullptr)
+		return ;
 	ListNode *p=pHead->next;
-	ListNode *newHead=pHead;
-	while(p!=NULL){			//将p结点移到链表最前方
-		pHead->next=p->next;//头结点指向p的下一个结点
-		p->next=newHead;	//p插入链表最前方
-		newHead=p;		//链表新头结点更新为p
-		p=pHead->next;//处理下一个结点，该结点位于头结点后
+	ListNode *pre=nullptr;      //反转之后的尾结点指向NULL，所以初始值为NULL
+	while(p!=nullptr){			//执行到头结点
+		pHead->next=p->next;    //保留下一个需要倒转的节点
+		p->next=pre;	        //倒转，使当前节点指向原来前面的节点
+		pre=p;		            //将pre换成当前节点，以便下一次操作
+		p=pHead->next;          //处理下一个需要反转的节点
 	}
-	return newHead;
+    ListNode *pnew=new ListNode;
+    pnew->next=pre;//添加头结点
+    head=pnew;
 }
 
 

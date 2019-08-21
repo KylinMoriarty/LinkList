@@ -24,21 +24,24 @@ public:
     void TraverLinkLIst();//遍历单链表
     int GetLength();//获取线性表长度
     bool IsEmpty();//判断单链表是否为空
-    ListNode* Find(int );//查找节点
+    bool IsExistData(int);//查找是否存在指定数据节点
+    ListNode* FindIndex(int );//查找指定数据节点
+    ListNode* FindReverseIndex(int );//查找倒数第指定的数据节点
     void InsertAtEnd(int );//尾部插入指定元素
     void InsertAtIndex(int ,int );//在指定位置插入指定元素
     void InsertAtHead(int );//在头部插入指定元素
     void DeleteAtEnd();//删除尾部元素
     void DeleteAll();//删除所有元素
-    void DeleteAtPoint(int );//删除指定数据元素
+    void DeleteAtData(int );//删除指定数据元素
     void DeleteAtIndex(int );//删除指定位置元素
     void DeleteAtHead();//删除头部元素
 
-    void ReverseList1();
-    ListNode* ReverseList2(ListNode* );
+    void ReverseList();//反转链表
+
 private:
     ListNode *head;//头结点
-
+    ListNode *except;//处理异常
+    ListNode* FindData(int );//查找返回指定数据节点
 
 };
 #endif // LINKLIST_HPP_INCLUDED
